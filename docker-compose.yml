@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+        adguardhome:
+                container_name: adguardhome
+                restart: always
+                volumes:
+                        - 'adguardhome-workdir:/opt/adguardhome/work'
+                        - './config:/opt/adguardhome/conf'
+                ports:
+                        - '53:53/tcp'
+                        - '53:53/udp'
+                        - '3000:3000/tcp'
+                        - '3000:3000/udp'
+                image: adguard/adguardhome:latest
+
+        dnscrypt-proxy:
+                container_name: dnscrypt-proxy
+                restart: always
+                image: klutchell/dnscrypt-proxy:latest
+                volumes:
+                        - './config/:/config'
+                        - 'dnscrypt-cache:/cache'
+                
+        tor-socks-proxy:
+                container_name: tor-socks-proxy
+                restart: always
+                image: peterdavehello/tor-socks-proxy:latest
+
+volumes:
+        adguardhome-workdir:
+        dnscrypt-cache:

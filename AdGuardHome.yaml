@@ -1,0 +1,156 @@
+# HTTP on 0.0.0.0:3000
+bind_host: 0.0.0.0
+bind_port: 3000
+theme: auto
+web_session_ttl: 720
+
+# Password uses BCrypt
+users:
+  - name: CHANGETHIS
+    password: CHANGETHIS
+
+# Ratelimiting login attempts
+auth_attempts: 5
+block_auth_min: 15
+
+# Filters
+filters:
+  - enabled: false    
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+    name: AdGuard DNS filter
+    id: 1
+  - enabled: false
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+    name: AdAway Default Blocklist
+    id: 2
+whitelist_filters: []
+user_rules: []
+
+dns:
+  # DNS on 0.0.0.0:53
+  bind_hosts:
+    - 0.0.0.0
+  port: 53
+
+  # Enable filters and protection
+  protection_enabled: true
+  protection_disabled_until: null
+  filtering_enabled: true
+
+  # DNS Rewrites 
+  rewrites: []
+
+  # Don't do any anonymisation on logs
+  anonymize_client_ip: false
+
+  # Leave blocking response on default
+  blocking_mode: default
+  blocking_ipv4: ""
+  blocking_ipv6: ""
+  blocked_response_ttl: 10
+  parental_block_host: ""
+  safebrowsing_block_host: ""
+
+  # Ratelimit disabled 
+  ratelimit: 0
+  ratelimit_whitelist: []
+  refuse_any: true
+
+  # Use dnscrypt-proxy for resolving
+  upstream_dns:
+    - dnscrypt-proxy:5443
+  bootstrap_dns:
+    - dnscrypt-proxy:5443
+  all_servers: false
+  fastest_addr: false
+  fastest_timeout: 1s
+
+  # Access settings
+  allowed_clients: []
+  disallowed_clients: []
+  blocked_hosts:
+    - version.bind
+    - id.server
+    - hostname.bind
+  # Might need to configure this for nginx reverse proxy
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
+
+  # Disable cache
+  cache_size: 0
+  cache_ttl_min: 0
+  cache_ttl_max: 0
+  cache_optimistic: false
+
+  # stuff
+  private_networks: []
+  use_private_ptr_resolvers: true
+  local_ptr_upstreams: []
+  use_dns64: false
+  dns64_prefixes: []
+  serve_http3: false
+  use_http3_upstreams: false
+  bogus_nxdomain: []
+  aaaa_disabled: false
+  enable_dnssec: false
+  edns_client_subnet:
+    custom_ip: ""
+    enabled: false
+    use_custom: false
+  max_goroutines: 300
+  handle_ddr: true
+  ipset: []    
+  ipset_file: ""
+  filters_update_interval: 24
+  parental_enabled: false
+  safebrowsing_enabled: false
+  cache_time: 0 
+  safe_search:
+    enabled: false
+
+# DNS Over HTTP(s). Use with NGINX reverse proxy for HTTPS.
+tls:
+  enabled: false
+  server_name: ""
+  force_https: false
+  port_https: 0
+  allow_unencrypted_doh: true
+  strict_sni_check: false
+
+# Logging
+querylog:
+  ignored: []
+  interval: 2160h
+  size_memory: 1000
+  enabled: true
+  file_enabled: true
+statistics:
+  ignored: []
+  interval: 24h
+  enabled: true
+
+# Disable DHCP server.
+dhcp:
+  enabled: false
+
+clients:
+  runtime_sources:
+    whois: true
+    arp: true
+    rdns: true
+    dhcp: true
+    hosts: true
+  persistent: []
+
+# Verbose stdout
+log_file: ""
+verbose: true
+
+# Not useful for us. We're on docker
+os:
+  group: ""
+  user: ""
+  rlimit_nofile: 0
+
+schema_version: 20
